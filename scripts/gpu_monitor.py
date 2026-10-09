@@ -3,11 +3,10 @@ import os
 import re
 import threading
 
-from modules import script_callbacks  # pyright: ignore[reportMissingImports]
-
 import pynvml  # pyright: ignore[reportMissingImports]
 from fastapi import FastAPI, Request  # pyright: ignore[reportMissingImports]
 from fastapi.responses import Response  # pyright: ignore[reportMissingImports]
+from modules import script_callbacks  # pyright: ignore[reportMissingImports]
 
 if pynvml is None:
     raise RuntimeError("pynvml unavailable")
