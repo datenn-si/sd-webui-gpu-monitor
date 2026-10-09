@@ -1,0 +1,414 @@
+#gpu-monitor-window {
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  z-index: 10000;
+  box-sizing: border-box;
+  width: 240px;
+  max-width: calc(100vw - 4px);
+  overflow: hidden;
+  background: var(--background-fill-primary, #ffffff);
+  border: 1px solid var(--border-color-primary, #e5e7eb);
+  border-radius: var(--radius-lg, 8px);
+  box-shadow: var(--shadow-drop-lg, 0 4px 16px rgba(0, 0, 0, 0.25));
+  color: var(--body-text-color, #1f2937);
+  font-family: var(--font, system-ui, sans-serif);
+  font-size: var(--text-md, 14px);
+  line-height: 1.3;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+#gpu-monitor-window.gpu-monitor-hidden {
+  display: none;
+}
+
+#gpu-monitor-window .gpu-monitor-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 6px 8px 6px 10px;
+  background: var(--background-fill-secondary, #f9fafb);
+  border-bottom: 1px solid var(--border-color-primary, #e5e7eb);
+  cursor: grab;
+  touch-action: none;
+}
+
+#gpu-monitor-window.gpu-monitor-dragging .gpu-monitor-header {
+  cursor: grabbing;
+}
+
+#gpu-monitor-window.gpu-monitor-minimized .gpu-monitor-header {
+  border-bottom: none;
+}
+
+#gpu-monitor-window .gpu-monitor-title {
+  color: var(--body-text-color, #1f2937);
+  font-size: var(--text-sm, 12px);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+#gpu-monitor-window .gpu-monitor-controls {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+#gpu-monitor-window .gpu-monitor-btn {
+  appearance: none;
+  -webkit-appearance: none;
+  margin: 0;
+  padding: 2px 4px;
+  background: transparent;
+  border: none;
+  border-radius: var(--radius-sm, 4px);
+  box-shadow: none;
+  color: var(--body-text-color, #1f2937);
+  font-size: 12px;
+  line-height: 1;
+  opacity: 0.65;
+  cursor: pointer;
+}
+
+#gpu-monitor-window .gpu-monitor-btn:hover {
+  background: var(--background-fill-primary, #ffffff);
+  opacity: 1;
+}
+
+#gpu-monitor-window .gpu-monitor-btn-restore {
+  display: none;
+}
+
+#gpu-monitor-window.gpu-monitor-minimized .gpu-monitor-btn-min {
+  display: none;
+}
+
+#gpu-monitor-window.gpu-monitor-minimized .gpu-monitor-btn-restore {
+  display: inline-block;
+}
+
+#gpu-monitor-window.gpu-monitor-minimized .gpu-monitor-body {
+  display: none;
+}
+
+#gpu-monitor-window .gpu-monitor-body {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 8px 10px 10px;
+}
+
+#gpu-monitor-window .gpu-monitor-name {
+  margin-bottom: 4px;
+  color: var(--body-text-color, #1f2937);
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+#gpu-monitor-window .gpu-monitor-name.gpu-monitor-error {
+  color: var(--error-text-color, #b91c1c);
+}
+
+#gpu-monitor-window .gpu-monitor-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+#gpu-monitor-window .gpu-monitor-label {
+  color: var(--body-text-color-subdued, #6b7280);
+}
+
+#gpu-monitor-window .gpu-monitor-value {
+  color: var(--body-text-color, #1f2937);
+  font-variant-numeric: tabular-nums;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+#gpu-monitor-window .gpu-monitor-bar {
+  height: 6px;
+  margin: 1px 0 3px;
+  overflow: hidden;
+  background: var(--background-fill-secondary, #e5e7eb);
+  border: 1px solid var(--border-color-primary, #e5e7eb);
+  border-radius: 999px;
+}
+
+#gpu-monitor-window .gpu-monitor-bar-fill {
+  width: 0;
+  height: 100%;
+  background: var(--body-text-color, #1f2937);
+  border-radius: 999px;
+  transition: width 0.3s ease;
+}
+
+#gpu-monitor-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 10001;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  padding: 16px;
+  background: rgba(0, 0, 0, 0.45);
+  color: var(--body-text-color, #1f2937);
+  font-family: var(--font, system-ui, sans-serif);
+  font-size: var(--text-md, 14px);
+}
+
+#gpu-monitor-modal .gpu-monitor-dialog {
+  box-sizing: border-box;
+  width: 360px;
+  max-width: 100%;
+  max-height: 100%;
+  overflow: auto;
+  background: var(--background-fill-primary, #ffffff);
+  border: 1px solid var(--border-color-primary, #e5e7eb);
+  border-radius: var(--radius-lg, 8px);
+  box-shadow: var(--shadow-drop-lg, 0 8px 32px rgba(0, 0, 0, 0.3));
+}
+
+#gpu-monitor-modal .gpu-monitor-dialog-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 10px 12px;
+  background: var(--background-fill-secondary, #f9fafb);
+  border-bottom: 1px solid var(--border-color-primary, #e5e7eb);
+}
+
+#gpu-monitor-modal .gpu-monitor-dialog-title {
+  color: var(--body-text-color, #1f2937);
+  font-weight: 600;
+}
+
+#gpu-monitor-modal .gpu-monitor-btn {
+  appearance: none;
+  -webkit-appearance: none;
+  margin: 0;
+  padding: 2px 4px;
+  background: transparent;
+  border: none;
+  border-radius: var(--radius-sm, 4px);
+  box-shadow: none;
+  color: var(--body-text-color, #1f2937);
+  font-size: 12px;
+  line-height: 1;
+  opacity: 0.65;
+  cursor: pointer;
+}
+
+#gpu-monitor-modal .gpu-monitor-btn:hover {
+  background: var(--background-fill-primary, #ffffff);
+  opacity: 1;
+}
+
+#gpu-monitor-modal .gpu-monitor-dialog-body {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 14px 12px 8px;
+}
+
+#gpu-monitor-modal .gpu-monitor-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+#gpu-monitor-modal .gpu-monitor-field-label {
+  color: var(--body-text-color-subdued, #6b7280);
+  font-size: var(--text-sm, 12px);
+}
+
+#gpu-monitor-modal .gpu-monitor-input {
+  box-sizing: border-box;
+  width: 100%;
+  margin: 0;
+  padding: 6px 8px;
+  background: var(--input-background-fill, var(--background-fill-primary, #ffffff));
+  border: var(--input-border-width, 1px) solid
+    var(--input-border-color, var(--border-color-primary, #d1d5db));
+  border-radius: var(--input-radius, var(--radius-md, 6px));
+  box-shadow: var(--input-shadow, none);
+  color: var(--body-text-color, #1f2937);
+  font-family: inherit;
+  font-size: inherit;
+}
+
+#gpu-monitor-modal .gpu-monitor-input:focus {
+  outline: none;
+  border-color: var(--input-border-color-focus, var(--body-text-color, #6b7280));
+  box-shadow: var(--input-shadow-focus, none);
+}
+
+#gpu-monitor-modal .gpu-monitor-input:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+#gpu-monitor-modal .gpu-monitor-dialog-error {
+  min-height: 1.3em;
+  color: var(--error-text-color, #b91c1c);
+  font-size: var(--text-sm, 12px);
+}
+
+#gpu-monitor-modal .gpu-monitor-dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  padding: 8px 12px 12px;
+}
+
+#gpu-monitor-modal .gpu-monitor-action {
+  appearance: none;
+  -webkit-appearance: none;
+  margin: 0;
+  padding: 6px 16px;
+  background: var(--button-secondary-background-fill, var(--background-fill-secondary, #f3f4f6));
+  border: 1px solid var(--button-secondary-border-color, var(--border-color-primary, #d1d5db));
+  border-radius: var(--button-large-radius, var(--radius-md, 6px));
+  box-shadow: none;
+  color: var(--button-secondary-text-color, var(--body-text-color, #1f2937));
+  font-family: inherit;
+  font-size: inherit;
+  cursor: pointer;
+}
+
+#gpu-monitor-modal .gpu-monitor-action:hover {
+  background: var(
+    --button-secondary-background-fill-hover,
+    var(--background-fill-secondary, #e5e7eb)
+  );
+}
+
+#gpu-monitor-modal .gpu-monitor-action-primary {
+  background: var(--button-primary-background-fill, var(--body-text-color, #1f2937));
+  border-color: var(--button-primary-border-color, transparent);
+  color: var(--button-primary-text-color, var(--background-fill-primary, #ffffff));
+}
+
+#gpu-monitor-modal .gpu-monitor-action-primary:hover {
+  background: var(
+    --button-primary-background-fill-hover,
+    var(--button-primary-background-fill, #374151)
+  );
+}
+
+#gpu-monitor-modal .gpu-monitor-action:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+#gpu-monitor-window .gpu-monitor-metric-hidden {
+  display: none;
+}
+
+#gpu-monitor-modal .gpu-monitor-check-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+#gpu-monitor-modal .gpu-monitor-check {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--body-text-color, #1f2937);
+  cursor: pointer;
+}
+
+#gpu-monitor-modal .gpu-monitor-check input {
+  margin: 0;
+  accent-color: var(--color-accent, var(--body-text-color, #6b7280));
+  cursor: inherit;
+}
+
+#gpu-monitor-modal .gpu-monitor-check-sub {
+  padding-left: 22px;
+}
+
+#gpu-monitor-modal .gpu-monitor-check-disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+#gpu-monitor-window.gpu-monitor-clickthrough {
+  pointer-events: none;
+  opacity: var(--gpu-monitor-ct-opacity, 0.5);
+}
+
+#gpu-monitor-controls {
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-end;
+  gap: 4px;
+}
+
+#gpu-monitor-controls .gpu-monitor-qs-btn {
+  appearance: none;
+  -webkit-appearance: none;
+  min-width: 32px;
+  margin: 0;
+  padding: 4px 8px;
+  background: var(--button-secondary-background-fill, var(--background-fill-secondary, #f3f4f6));
+  border: 1px solid var(--button-secondary-border-color, var(--border-color-primary, #d1d5db));
+  border-radius: var(--button-large-radius, var(--radius-md, 6px));
+  box-shadow: none;
+  color: var(--button-secondary-text-color, var(--body-text-color, #1f2937));
+  font-family: inherit;
+  font-size: var(--text-md, 14px);
+  line-height: 1.2;
+  cursor: pointer;
+}
+
+#gpu-monitor-controls .gpu-monitor-qs-btn:hover {
+  background: var(
+    --button-secondary-background-fill-hover,
+    var(--background-fill-secondary, #e5e7eb)
+  );
+}
+
+#gpu-monitor-modal .gpu-monitor-opacity-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+#gpu-monitor-modal .gpu-monitor-range {
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+  accent-color: var(--color-accent, var(--body-text-color, #6b7280));
+}
+
+#gpu-monitor-modal .gpu-monitor-opacity-row .gpu-monitor-input {
+  flex: none;
+  width: 84px;
+}
+
+#gpu-monitor-window.gpu-monitor-clickthrough .gpu-monitor-header {
+  display: none;
+}
+
+#gpu-monitor-window.gpu-monitor-clickthrough .gpu-monitor-body {
+  border-radius: inherit;
+}
+
+#gpu-monitor-modal .gpu-monitor-dialog-actions {
+  align-items: center;
+}
+
+#gpu-monitor-modal .gpu-monitor-version {
+  margin-right: auto;
+  color: var(--body-text-color-subdued, #6b7280);
+  font-size: var(--text-xs, 10px);
+  opacity: 0.8;
+  user-select: none;
+  -webkit-user-select: none;
+}

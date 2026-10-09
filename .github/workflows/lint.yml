@@ -1,0 +1,39 @@
+name: Lint
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  python:
+    name: Python (Ruff)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+      - name: Install Ruff
+        run: pip install ruff
+      - name: Ruff check
+        run: ruff check .
+      - name: Ruff format check
+        run: ruff format --check .
+
+  web:
+    name: Web (oxlint / oxfmt)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "26.10.0"
+      - name: Install dependencies
+        run: pnpm install --no-frozen-lockfile --ignore-scripts
+      - name: oxlint
+        run: pnpm exec oxlint -c .oxlintrc.json .
+      - name: oxfmt check
+        run: pnpm exec oxfmt --check "**/*.{js,css,json,md}"

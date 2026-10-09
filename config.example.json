@@ -1,0 +1,12 @@
+{
+  "gpu_index": 0,
+  "polling_rate": 2000,
+  "retry_rate": 10000,
+  "language": "en",
+  "click_through_opacity": 0.5,
+  "show_usage": true,
+  "show_vram": true,
+  "show_vram_bar": true,
+  "show_temp": true,
+  "show_power": true
+}

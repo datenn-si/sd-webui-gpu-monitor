@@ -1,0 +1,50 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "env": {
+    "browser": true,
+    "es2022": true
+  },
+  "globals": {
+    "gradioApp": "readonly",
+    "gradio_config": "readonly",
+    "opts": "readonly",
+    "onUiLoaded": "readonly",
+    "onUiUpdate": "readonly",
+    "onAfterUiUpdate": "readonly",
+    "onOptionsChanged": "readonly",
+    "onUiTabChange": "readonly",
+    "executeCallbacks": "readonly",
+    "get_uiCurrentTab": "readonly",
+    "uiCurrentTab": "readonly",
+    "localization": "readonly",
+    "getTranslation": "readonly",
+    "args_to_array": "readonly",
+    "selected_gallery_index": "readonly",
+    "switch_to_txt2img": "readonly",
+    "switch_to_img2img": "readonly",
+    "switch_to_inpaint": "readonly",
+    "switch_to_extras": "readonly",
+    "updateInput": "readonly",
+    "Gradio": "readonly"
+  },
+  "categories": {
+    "correctness": "error"
+  },
+  "rules": {
+    "no-undef": "error",
+    "no-unused-vars": "warn",
+    "eqeqeq": "warn",
+    "no-var": "warn",
+    "prefer-const": "warn"
+  },
+  "ignorePatterns": ["node_modules", "dist", "build", "**/*.min.js"],
+  "overrides": [
+    {
+      "files": [".lintstagedrc.js", "*.config.js"],
+      "env": {
+        "node": true,
+        "browser": false
+      }
+    }
+  ]
+}

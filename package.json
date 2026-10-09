@@ -1,0 +1,24 @@
+{
+  "name": "sd-webui-extension-tooling",
+  "version": "1.0.0",
+  "private": true,
+  "packageManager": "pnpm@12.9.1",
+  "description": "Standardized linting, formatting, pre-commit and CI tooling for SD WebUI extensions",
+  "scripts": {
+    "prepare": "husky",
+    "lint": "pnpm run lint:py && pnpm run lint:js",
+    "lint:py": "ruff check .",
+    "lint:js": "oxlint -c .oxlintrc.json .",
+    "lint:fix": "ruff check --fix . && oxlint -c .oxlintrc.json --fix .",
+    "format": "pnpm run format:py && pnpm run format:web",
+    "format:py": "ruff format .",
+    "format:web": "oxfmt \"**/*.{js,css,json,md}\"",
+    "check": "ruff check . && ruff format --check . && oxlint -c .oxlintrc.json . && oxfmt --check \"**/*.{js,css,json,md}\""
+  },
+  "devDependencies": {
+    "husky": "^9.1.7",
+    "lint-staged": "^15.5.0",
+    "oxfmt": "^0.72.0",
+    "oxlint": "^1.0.0"
+  }
+}
