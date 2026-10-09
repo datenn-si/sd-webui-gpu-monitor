@@ -10,7 +10,7 @@ ignore = ["E402", "E501", "B008", "B905"]
 fixable = ["ALL"]
 
 [tool.ruff.lint.isort]
-known-first-party = ["launch", "fastapi", "pynvml"]
+known-first-party = ["modules", "launch", "fastapi", "pynvml"]
 
 [tool.ruff.format]
 quote-style = "double"

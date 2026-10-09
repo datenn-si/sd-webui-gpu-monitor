@@ -1,9 +1,9 @@
 {
-  "name": "sd-webui-extension-tooling",
+  "name": "sd-webui-gpu-monitor",
   "version": "1.0.0",
   "private": true,
   "packageManager": "pnpm@12.9.1",
-  "description": "Standardized linting, formatting, pre-commit and CI tooling for SD WebUI extensions",
+  "description": "A lightweight GPU monitoring overlay for Stable Diffusion WebUI Forge Neo",
   "scripts": {
     "prepare": "husky",
     "lint": "pnpm run lint:py && pnpm run lint:js",
